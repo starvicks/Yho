@@ -133,7 +133,8 @@ CORS_ALLOWED_ORIGINS = [
     'https://tenfortow.vercel.app',
     'https://www.tenfortow.com',
     'https://127.0.0.1:8000',
-    'http://localhost:8158'
+    'http://localhost:8158',
+    'https://yho-nine.vercel.app/'
     # 'https://www.tenfortow.com'
 ]
 
