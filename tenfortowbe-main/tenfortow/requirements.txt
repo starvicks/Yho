@@ -1,0 +1,49 @@
+# Django Core
+Django==5.1.1
+python-dotenv==1.0.0
+
+# Database - SQLite (built into Python)
+dj-database-url==2.2.0
+
+# Django REST Framework
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.3.1
+
+# Django Authentication & Security
+django-allauth==0.63.2
+dj-rest-auth==6.0.0
+django-cors-headers==4.3.1
+
+# Django Extensions
+django-templated-mail==1.1.1
+
+# WSGI Server (uncomment when needed)
+# gunicorn==21.2.0
+
+# Utilities
+requests==2.31.0
+certifi==2023.11.17
+pytz==2024.1
+
+# Web Scraping
+beautifulsoup4==4.12.3
+soupsieve==2.5
+
+# Cryptography
+cryptography==41.0.7
+
+# Common dependencies
+urllib3==2.1.0
+charset-normalizer==3.3.2
+idna==3.6
+
+# Django utilities
+whitenoise==6.6.0
+
+# JWT
+PyJWT==2.8.0
+
+# Python dependencies (Django will install compatible versions automatically)
+# asgiref - will be installed by Django
+# sqlparse - will be installed by Django
+# typing-extensions - will be installed as needed

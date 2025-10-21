@@ -1,0 +1,187 @@
+:root {
+  --yahoo-purple: #7f3fff; /* bright button color */
+  --yahoo-deeppurple: #6001d2; /* brand purple */
+  --text-primary: #111111;
+  --text-secondary: #5f6368;
+  --border: #e0e0e0;
+  --focus: #6a4df5;
+  --bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--text-primary);
+  background: var(--bg);
+}
+
+.page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* ===== Header Logo ===== */
+.brand {
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 0;
+  width: 100%;
+}
+
+.logo {
+  width: 90px; /* nice balanced size */
+  height: auto;
+  color: var(--yahoo-deeppurple);
+}
+
+/* ===== Card (Form container) ===== */
+.card {
+  width: 100%;
+  max-width: 900px; /* allow more room */
+  margin: 0 auto;
+  padding: 16px 24px;
+}
+
+/* ===== Titles ===== */
+.title {
+  font-weight: 700;
+  font-size: 25px;
+  text-align: center;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  margin: 12px 0 8px;
+  margin-top: 40px;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #404040;
+  margin: 0 0 36px;
+  text-align: center;
+}
+
+/* ===== Fields ===== */
+.field {
+  display: block;
+  width: 95%;        /* wider on all screens */
+  max-width: 800px;
+  margin: 50px auto 0;
+}
+
+.field-label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-top: 65px;
+}
+
+.field-input {
+  width: 100%;
+  font-size: 16px;   /* smaller, cleaner */
+  padding: 10px 2px 8px;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  outline: none;
+  background: transparent;
+}
+
+.field-input:focus {
+  border-bottom-color: var(--yahoo-deeppurple);
+}
+
+.field-underline {
+  display: none;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* Primary button */
+.btn-primary {
+  background: var(--yahoo-purple);
+  color: white;
+  width: 95%;         /* wider on mobile too */
+  max-width: 800px;
+  font-size: 20px;
+  padding: 12px;
+  margin: 30px auto 0;
+  display: block;
+  box-shadow: 0 6px 20px rgba(127, 63, 255, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Ghost button */
+.btn-ghost {
+  border: 1px solid var(--yahoo-deeppurple);
+  color: var(--yahoo-deeppurple);
+  padding: 12px;
+  width: 95%;
+  max-width: 800px;
+  font-size: 18px;
+  margin: 70px auto 0;
+  display: block;
+  text-align: center;
+  border-radius: 999px;
+}
+
+/* ===== Helpers / Links ===== */
+.helper {
+  text-align: center;
+  margin: 24px auto 0;
+  font-size: 15px;
+  width: 95%;
+  max-width: 800px;
+}
+
+.link {
+  color: var(--yahoo-deeppurple);
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Footer CTA ===== */
+.cta-footer {
+  padding: 10px;
+  background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.8) 60%, rgba(255,255,255,0));
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== Responsive tweaks ===== */
+@media (min-width: 768px) {
+  .card {
+    padding: 24px 48px;
+  }
+  .btn-primary,
+  .field,
+  .helper,
+  .btn-ghost {
+    width: 800px; /* fixed max width for desktop */
+  }
+}
