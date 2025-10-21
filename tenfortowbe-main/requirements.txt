@@ -1,7 +1,7 @@
 # Django Core
 Django==5.1.1
 python-dotenv==1.0.0
-
+uvicorn
 # Database - SQLite (built into Python)
 dj-database-url==2.2.0
 
