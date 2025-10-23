@@ -4,7 +4,7 @@ python-dotenv==1.0.0
 uvicorn
 # Database - SQLite (built into Python)
 dj-database-url==2.2.0
-
+requests 
 # Django REST Framework
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.1
